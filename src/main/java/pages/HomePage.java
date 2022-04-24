@@ -1,26 +1,20 @@
 package pages;
 
 import constants.locators.HomePageConstants;
-import constants.urls.Urls;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HelperTools.ElementPresenceChecker;
 
-import java.time.Duration;
 
 public class HomePage {
     private WebDriver driver;
     private By searchBar = By.id(HomePageConstants.SEARCH_BAR);
     private By searchButton = By.cssSelector(HomePageConstants.SEARCH_BUTTON);
     private By buySubmenu = By.cssSelector(HomePageConstants.BUY_SUBMENU);
-    private By unsuccessfulSearchWindow = By.cssSelector("body.customer-facing.transparent-header.route-Homepage.dialog-shown:nth-child(2) div.dialogsContainer div.dialog-wrap div.Dialog.v83.shown.fixed.searchDisambigDialog.standard div.cell > div.guts");
-    private By firstSuggestion = By.xpath("//body/div[@id='content']/div[8]/div[2]/div[1]/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[3]/div[1]/div[1]/div[2]/a[1]");
-    private String unsuccessfulSearchMessage;
+    private By firstSuggestion = By.xpath(HomePageConstants.FIRST_SUGGESTION);
+    private By unsuccessfulSearchMessage = By.cssSelector(HomePageConstants.UNSUCCESSFUL_SEARCH_MESSAGE);
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -56,6 +50,7 @@ public class HomePage {
     }
 
     public String getUnsuccessfulSearchMessage() {
-        return unsuccessfulSearchMessage;
+        ElementPresenceChecker.waitUntilVisible(driver, unsuccessfulSearchMessage);
+        return driver.findElement(unsuccessfulSearchMessage).getText();
     }
 }

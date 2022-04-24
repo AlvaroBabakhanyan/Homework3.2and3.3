@@ -4,33 +4,26 @@ import constants.locators.HomesForSalePageConstants;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HelperTools.ElementPresenceChecker;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class HomesForSalePage {
     private WebDriver driver;
-    private By priceFilterButton = By.xpath("//body/div[@id='content']/div[8]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/form[1]/div[2]/div[1]");
-    private By priceRangeInputMin = By.xpath("//body/div[@id='content']/div[8]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/span[1]/span[1]/div[1]/input[1]");
+    private By sortBySquareFeetButton = By.xpath(HomesForSalePageConstants.SORT_BY_SQUARE_FEET_BUTTON);
+    private By tableButton = By.cssSelector(HomesForSalePageConstants.TABLE_BUTTON);
+    private By photosButton = By.xpath(HomesForSalePageConstants.PHOTOS_BUTTON);
+    private By mapTabButton = By.xpath(HomesForSalePageConstants.MAP_TAB_BUTTON);
 
-    private By sortBySquareFeetButton = By.xpath("//thead/tr[@id='tableView-table-header']/div[1]/th[7]/button[1]");
-    private By tableButton = By.cssSelector("body.customer-facing.photosMode.route-SearchPage:nth-child(2) div.map.showFullPageListView.collapsedList:nth-child(2) div.WideSidepaneHeader--container:nth-child(3) div.Photo.WideSidepaneHeader div.stickExposedFilterAndDescription.hideOnScroll div.descriptionAndModeContainer div.ModeToggler.displayModeToggler button.ModeOption.button-text:nth-child(2) > span.modeOptionInnard.table");
-    private By photosButton = By.xpath("//span[contains(text(),'Photos')]");
     public HomesForSalePage(WebDriver driver) {
         this.driver = driver;
     }
 
     public void clickTableButton() {
-        if (!driver.findElements(By.xpath("//body/div[@id='content']/div[8]/div[2]/div[1]/div[1]/div[1]/div[1]/*[1]")).isEmpty() &&
-            !driver.findElement(By.xpath("//body/div[@id='content']/div[8]/div[2]/div[1]/div[1]/div[1]/div[1]/*[1]")).getText().contains("isClosed")) {
-            driver.findElement(By.xpath("//body/div[@id='content']/div[8]/div[2]/div[1]/div[1]/div[1]/div[1]/*[1]")).click();
+        if (!driver.findElements(mapTabButton).isEmpty() &&
+            !driver.findElement(mapTabButton).getText().contains("isClosed")) {
+            driver.findElement(mapTabButton).click();
         }
         ElementPresenceChecker.waitUntilVisible(driver, tableButton);
         driver.findElement(tableButton).click();
@@ -50,7 +43,7 @@ public class HomesForSalePage {
         By homeCard = By.id(HomesForSalePageConstants.HOME_CARD + index);
         ElementPresenceChecker.waitUntilVisible(driver, homeCard);
         WebElement we = driver.findElement(homeCard);
-        return we.findElement(By.className(HomesForSalePageConstants.FIRST_HOME_CARD_ADDRESS)).getText(); //problemmmmmmmmmmmmmmmmmmmmm
+        return we.findElement(By.className(HomesForSalePageConstants.HOME_CARD_ADDRESS)).getText();
     }
 
     public int getHomeCardSquareFeet(int index) {
@@ -62,8 +55,6 @@ public class HomesForSalePage {
         return Integer.parseInt(areaSqFt.replaceAll("[\\D]", ""));
     }
 
-
-
     public PropertyDetailsPage clickHomeCard(int index) {
         By homeCard = By.id(HomesForSalePageConstants.HOME_CARD + index);
         ElementPresenceChecker.waitUntilVisible(driver, homeCard);
@@ -74,17 +65,6 @@ public class HomesForSalePage {
         driver.switchTo().window(tabs2.get(1));
 
         return new PropertyDetailsPage(driver);
-    }
-
-    public void clickPriceFilterButton() {
-        driver.findElement(priceFilterButton).click();
-    }
-
-    public void setMinPrice(int minPrice) {
-        Select price = new Select(driver.findElement(priceFilterButton));
-        if (price.isMultiple()) {
-            price.selectByVisibleText("Enter min");
-        }
     }
 }
 

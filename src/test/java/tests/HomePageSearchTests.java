@@ -35,6 +35,6 @@ public class HomePageSearchTests extends BaseTest {
         homePage.clickSearchButton();
 
         SoftAssert softAssert  = new SoftAssert();
-        softAssert.assertEquals(homePage.getUnsuccessfulSearchMessage(), "Sorry, we couldn’t find '" + keyword + "'.");
+        softAssert.assertEquals(homePage.getUnsuccessfulSearchMessage(), "Sorry, we couldn’t find '" + keyword + "'.", AssertionMessages.UNSUCCESSFUL_SEARCH);
     }
 }
