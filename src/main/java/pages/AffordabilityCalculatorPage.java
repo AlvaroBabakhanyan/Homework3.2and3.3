@@ -11,8 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 
-// Home -> Affordability Calculator -> See House on the map -> Property Page
-// Check if this 4 pages are a good idea
 public class AffordabilityCalculatorPage {
     private WebDriver driver;
     private By locationInput = By.xpath(AffordabilityCalculatorPageConstants.INPUT_LOCATION);
